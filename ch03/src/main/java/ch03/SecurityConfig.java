@@ -22,30 +22,27 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
 		auth.userDetailsService(new UserDetailsService() {
 			
 			public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-				//return 
-				UserDetails userDetails =readerRepository.findByUsername(username);
+				UserDetails userDetails =readerRepository.findOne(username);
 				if (userDetails != null) {
 		            return userDetails;
 				}
 				throw new UsernameNotFoundException("User '" + username + "' not found.");
 			}
 		});
+		//super.configure(auth);
 	}
 
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
+		//super.configure(http);
 		http
-        .authorizeRequests()
-            .antMatchers("/", "/home").permitAll()
-            .anyRequest().authenticated()
-            .and()
-        .formLogin()
-            .loginPage("/login")
-            .permitAll()
-            .and()
-        .logout()
-            .permitAll();
-		
+	      .authorizeRequests()
+	        .antMatchers("/").access("hasRole('READER')")
+	        .antMatchers("/**").permitAll()
+	      .and()
+	      .formLogin()
+	        .loginPage("/login")
+	        .failureUrl("/login?error=true");
 	}
 
 	

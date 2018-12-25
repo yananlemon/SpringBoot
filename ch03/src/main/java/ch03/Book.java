@@ -4,6 +4,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 @Entity
@@ -12,7 +13,8 @@ public class Book {
 	@Id
 	@GeneratedValue(strategy=GenerationType.AUTO)
 	private Long id;
-	
+	@ManyToOne
+	private Reader reader;
 	@Column(name="isbn")
 	private String isbn;
 	
@@ -32,6 +34,13 @@ public class Book {
 	}
 	public String getIsbn() {
 		return isbn;
+	}
+	
+	public Reader getReader() {
+		return reader;
+	}
+	public void setReader(Reader reader) {
+		this.reader = reader;
 	}
 	public void setIsbn(String isbn) {
 		this.isbn = isbn;

@@ -3,6 +3,7 @@ package ch03;
 import java.util.Arrays;
 import java.util.Collection;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
@@ -21,7 +22,9 @@ public class Reader implements UserDetails{
 	private static final long serialVersionUID = 1L;
 	@Id
 	private String username;
+	@Column(name="fullname")
 	private String fullname;
+	@Column(name="password")
 	private String password;
 
 	public String getUsername() {
@@ -45,7 +48,7 @@ public class Reader implements UserDetails{
 		this.password = password;
 	}
 	public Collection<? extends GrantedAuthority> getAuthorities() {
-		return Arrays.asList(new SimpleGrantedAuthority("READER"));
+		return Arrays.asList(new SimpleGrantedAuthority("ROLE_READER"));
 	}
 	public boolean isAccountNonExpired() {
 		return true;
